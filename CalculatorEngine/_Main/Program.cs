@@ -8,7 +8,7 @@ namespace CalculatorEngine
     {
         static void Main(string[] args)
         {
-            
+            MainRenderLoop mainRenderLoop = new MainRenderLoop(1920, 1080, 60);
         }
     }
 }
