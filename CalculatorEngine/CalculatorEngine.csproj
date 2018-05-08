@@ -46,6 +46,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="RenderEngine\Loader.cs" />
+    <Compile Include="Models\IRenderable.cs" />
+    <Compile Include="Models\RawModel.cs" />
     <Compile Include="_Main\MainRenderLoop.cs" />
     <Compile Include="_Main\Display.cs" />
     <Compile Include="_Main\Program.cs" />
@@ -57,5 +60,6 @@
     <None Include="_ConfigFiles\OpenTK.dll.config" />
     <None Include="_ConfigFiles\packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
