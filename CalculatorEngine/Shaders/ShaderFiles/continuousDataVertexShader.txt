@@ -16,5 +16,6 @@ void main(void)
 
 	//gl_Position = vec4(vPosition, 1);
 
+	//fColor = vec3(uTransformationMatrix[1][0], uTransformationMatrix[2][0], uTransformationMatrix[3][0]);
 	fColor = vColor;
 }

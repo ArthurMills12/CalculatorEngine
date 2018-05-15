@@ -20,7 +20,7 @@ namespace CalculatorEngine
         private List<Entity> batch_Entities { get; set; }
 
         //projection matrix:
-        public Matrix4 projectionMatrix { get; set; }
+        public Matrix4 projectionMatrix;
         public static float fieldOfView = Convert.ToSingle(Math.PI / 3f); //field of view angle for the frustrum.
         public static float nearPlane = 0.1f; //location of the nearest objects viewable by the projection matrix.
         public static float farPlane = 1000; //location of the furthest objects viewable by the projection matrix.
@@ -96,8 +96,8 @@ namespace CalculatorEngine
             Prepare();
 
             //entities:
-            entityShader.LoadViewMatrix(camera);
             entityShader.Start();
+            entityShader.LoadViewMatrix(camera);
             entityRenderer.Render(batch_Entities);
             entityShader.Stop();
             

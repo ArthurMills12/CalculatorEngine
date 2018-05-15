@@ -89,8 +89,8 @@ namespace CalculatorEngine
 
             Transform transform = new Transform(new Vector3(1, 1, 1), 0, 0, 0, 1);
             Vector3 position1 = new Vector3(0, 0, 0);
-            Vector3 position2 = new Vector3(0.5f, 0.5f, 0);
-            Vector3 position3 = new Vector3(0, 1, 0);
+            Vector3 position2 = new Vector3(50f, 50f, 0);
+            Vector3 position3 = new Vector3(0, 50, 0);
 
             temporary = new List<Vector3>();
             temporary.Add(position1);
@@ -106,11 +106,6 @@ namespace CalculatorEngine
             Entity entity = new Entity(transform, rawModel);
             entities = new List<Entity>();
             entities.Add(entity);
-
-            Matrix4 transformationMatrix = Mathematics.CreateTransformationMatrix(transform);
-            Matrix4 projectionMatrix = masterRenderer.projectionMatrix;
-            Matrix4 viewMatrix = Mathematics.CreateViewMatrix(camera);
-            Console.WriteLine(transformationMatrix * new Vector4(position3, 1));
         }
 
         //when the screen is resized.
@@ -137,16 +132,6 @@ namespace CalculatorEngine
             }
 
             camera.Move();
-
-            Matrix4 transformationMatrix = Mathematics.CreateTransformationMatrix(entities[0].transform);
-            Matrix4 projectionMatrix = masterRenderer.projectionMatrix;
-            Matrix4 viewMatrix = Mathematics.CreateViewMatrix(camera);
-
-            Vector4 newPosition1 = projectionMatrix * viewMatrix * transformationMatrix * new Vector4(temporary[0], 1);
-            Vector4 newPosition2 = projectionMatrix * viewMatrix * transformationMatrix * new Vector4(temporary[1], 1);
-            Vector4 newPosition3 = projectionMatrix * viewMatrix * transformationMatrix * new Vector4(temporary[2], 1);
-
-            Console.WriteLine(newPosition1 + " " + newPosition2 + " " + newPosition3);
         }
 
         //when the frame is rendered, fixed timestep.

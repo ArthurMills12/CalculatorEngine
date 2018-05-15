@@ -27,7 +27,7 @@ namespace CalculatorEngine
             Matrix4 t1 = Matrix4.CreateTranslation(transform.position);
             Matrix4 s1 = Matrix4.CreateScale(transform.scale);
 
-            Matrix4 transformationMatrix = r1 * r2 * r3 * t1 * s1;
+            Matrix4 transformationMatrix = s1 * t1 * r3 * r2 * r1;
 
             return transformationMatrix;
         }
