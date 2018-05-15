@@ -19,7 +19,10 @@ namespace CalculatorEngine
             this.entityShader = entityShader;
 
             //load the projection matrix:
+            //I SPENT FIVE HOURS ON THIS ISSUE HERE. WHENEVER LOADING A MATRIX4 UNIFORM TO A SHADER, START THE SHADER FIRST. THE SHADER MUST BE STARTED TO LOAD A UNIFORM MATRIX.
+            entityShader.Start();
             this.entityShader.LoadProjectionMatrix(projectionMatrix);
+            entityShader.Stop();
         }
 
 

@@ -45,18 +45,18 @@ namespace CalculatorEngine
         //load the uniform variables:
         public void LoadTransformationMatrix(Matrix4 transformationMatrix)
         {
-            Console.WriteLine($"Transformation: \n{ transformationMatrix } \n {locationTransformationMatrix} \n");
+            //Console.WriteLine($"Transformation: \n{ transformationMatrix } \n {locationTransformationMatrix} \n");
             LoadUniform(locationTransformationMatrix, transformationMatrix);
         }
         public void LoadProjectionMatrix(Matrix4 projectionMatrix)
         {
-            Console.WriteLine($"Projection: \n{projectionMatrix} \n locationProjectionMatrix \n");
+            //Console.WriteLine($"Projection: \n{projectionMatrix} \n locationProjectionMatrix \n");
             LoadUniform(locationProjectionMatrix, projectionMatrix);
         }
         public void LoadViewMatrix(Camera camera)
         {
             Matrix4 viewMatrix = Mathematics.CreateViewMatrix(camera);
-            Console.WriteLine($"View: \n{viewMatrix} \n {locationViewMatrix} \n");
+            //Console.WriteLine($"View: \n{viewMatrix} \n {locationViewMatrix} \n");
             LoadUniform(locationViewMatrix, viewMatrix);
         }
 

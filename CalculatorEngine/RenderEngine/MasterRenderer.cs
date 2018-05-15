@@ -21,7 +21,7 @@ namespace CalculatorEngine
 
         //projection matrix:
         public Matrix4 projectionMatrix;
-        public static float fieldOfView = Convert.ToSingle(Math.PI / 3f); //field of view angle for the frustrum.
+        public static float fieldOfView = Convert.ToSingle(Math.PI / 3); //field of view angle for the frustrum.
         public static float nearPlane = 0.1f; //location of the nearest objects viewable by the projection matrix.
         public static float farPlane = 1000; //location of the furthest objects viewable by the projection matrix.
 

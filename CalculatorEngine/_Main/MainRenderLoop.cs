@@ -87,10 +87,10 @@ namespace CalculatorEngine
             masterRenderer = new MasterRenderer();
             camera = new Camera();
 
-            Transform transform = new Transform(new Vector3(1, 1, 1), 0, 0, 0, 1);
+            Transform transform = new Transform(new Vector3(0, 0, -10), 0, 0, 0, 1);
             Vector3 position1 = new Vector3(0, 0, 0);
-            Vector3 position2 = new Vector3(50f, 50f, 0);
-            Vector3 position3 = new Vector3(0, 50, 0);
+            Vector3 position2 = new Vector3(0.5f, 0.5f, 0);
+            Vector3 position3 = new Vector3(0, 1f, 0);
 
             temporary = new List<Vector3>();
             temporary.Add(position1);
@@ -132,6 +132,20 @@ namespace CalculatorEngine
             }
 
             camera.Move();
+
+            Matrix4 transformationMatrix = Mathematics.CreateTransformationMatrix(new Transform(new Vector3(0, 0, 0), 0, 0, 0, 1));
+            Matrix4 projectionMatrix = masterRenderer.projectionMatrix;
+            Matrix4 viewMatrix = Mathematics.CreateViewMatrix(camera);
+
+            //Console.WriteLine($"Transformation: \n{ transformationMatrix }\n");
+            //Console.WriteLine($"Projection: \n{projectionMatrix}\n");
+            //Console.WriteLine($"View: \n{viewMatrix}\n");
+            Vector4 position1 = viewMatrix * new Vector4(temporary[0].X, temporary[0].Y, temporary[0].Z, 1);
+            Vector4 position2 = viewMatrix * new Vector4(temporary[1].X, temporary[1].Y, temporary[1].Z, 1);
+            Vector4 position3 = viewMatrix * new Vector4(temporary[2].X, temporary[2].Y, temporary[2].Z, 1);
+            //Console.WriteLine($"{position1} {position2} {position3}");
+            //Vector4 position1 = projectionMatrix * viewMatrix * transformationMatrix * new Vector4(temporary[1].X, temporary[1].Y, temporary[1].Z, 1);
+            //Console.WriteLine($"{position1}");
         }
 
         //when the frame is rendered, fixed timestep.
