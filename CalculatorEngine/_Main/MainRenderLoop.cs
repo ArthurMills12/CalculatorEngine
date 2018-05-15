@@ -25,7 +25,7 @@ namespace CalculatorEngine
         //input:
         private KeyboardState keyboardState { get; set; }
         private MouseState mouseState { get; set; }
-        private bool _isWindowFocused;
+        private bool _isWindowFocused = true;
         private bool _isMouseInWindow;
         private float _mouseWheelDelta;
         private Point _mousePosition;
@@ -34,6 +34,17 @@ namespace CalculatorEngine
         public float mouseWheelDelta { get => _mouseWheelDelta; set => _mouseWheelDelta = value; }
         public Point mousePosition { get => _mousePosition; set => _mousePosition = value; }
         public InputData inputData { get; set; }
+
+        //rendering:
+        Loader loader;
+        MasterRenderer masterRenderer;
+        Camera camera;
+
+
+        //temporary:
+        private List<Function> functions;
+        private List<Entity> entities;
+        private List<Vector3> temporary;
 
 
         /* CONSTRUCTORS */
@@ -71,7 +82,35 @@ namespace CalculatorEngine
         //when the window starts.
         private void OnLoad(object sender, EventArgs e)
         {
+            //initialize:
+            loader = new Loader();
+            masterRenderer = new MasterRenderer();
+            camera = new Camera();
 
+            Transform transform = new Transform(new Vector3(1, 1, 1), 0, 0, 0, 1);
+            Vector3 position1 = new Vector3(0, 0, 0);
+            Vector3 position2 = new Vector3(0.5f, 0.5f, 0);
+            Vector3 position3 = new Vector3(0, 1, 0);
+
+            temporary = new List<Vector3>();
+            temporary.Add(position1);
+            temporary.Add(position2);
+            temporary.Add(position3);
+
+            Vector3 white = new Vector3(1, 1, 1);
+
+            Vector3[] positions = new Vector3[3] { position1, position2 , position3};
+            Vector3[] colors = new Vector3[3] { white, white, white };
+
+            RawModel rawModel = loader.VAO_Load(positions, colors);
+            Entity entity = new Entity(transform, rawModel);
+            entities = new List<Entity>();
+            entities.Add(entity);
+
+            Matrix4 transformationMatrix = Mathematics.CreateTransformationMatrix(transform);
+            Matrix4 projectionMatrix = masterRenderer.projectionMatrix;
+            Matrix4 viewMatrix = Mathematics.CreateViewMatrix(camera);
+            Console.WriteLine(transformationMatrix * new Vector4(position3, 1));
         }
 
         //when the screen is resized.
@@ -96,12 +135,28 @@ namespace CalculatorEngine
             {
                 ManageInput(keyboardState, mouseState);
             }
+
+            camera.Move();
+
+            Matrix4 transformationMatrix = Mathematics.CreateTransformationMatrix(entities[0].transform);
+            Matrix4 projectionMatrix = masterRenderer.projectionMatrix;
+            Matrix4 viewMatrix = Mathematics.CreateViewMatrix(camera);
+
+            Vector4 newPosition1 = projectionMatrix * viewMatrix * transformationMatrix * new Vector4(temporary[0], 1);
+            Vector4 newPosition2 = projectionMatrix * viewMatrix * transformationMatrix * new Vector4(temporary[1], 1);
+            Vector4 newPosition3 = projectionMatrix * viewMatrix * transformationMatrix * new Vector4(temporary[2], 1);
+
+            Console.WriteLine(newPosition1 + " " + newPosition2 + " " + newPosition3);
         }
 
         //when the frame is rendered, fixed timestep.
         private void OnRenderFrame(object sender, FrameEventArgs e)
         {
-            
+            masterRenderer.ProcessEntity(entities.ToArray());
+            masterRenderer.Render(camera);
+
+            //finish up rendering:
+            display.SwapBuffers();
         }
 
         //when the window is closed.

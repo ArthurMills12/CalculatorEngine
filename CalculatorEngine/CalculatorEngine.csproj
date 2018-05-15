@@ -46,19 +46,46 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="RenderEngine\MasterRenderer.cs" />
+    <Compile Include="Entities\QuadraticFunction.cs" />
+    <Compile Include="RenderEngine\EntityRenderer.cs" />
+    <Compile Include="Entities\Function.cs" />
+    <Compile Include="Components\Entity.cs" />
+    <Compile Include="Input\Camera.cs" />
+    <Compile Include="Components\Transform.cs" />
+    <Compile Include="Utility\Mathematics.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Shaders\EntityShader.cs" />
     <Compile Include="RenderEngine\Loader.cs" />
     <Compile Include="Models\IRenderable.cs" />
     <Compile Include="Models\RawModel.cs" />
+    <Compile Include="Shaders\ShaderProgram.cs" />
     <Compile Include="_Main\MainRenderLoop.cs" />
     <Compile Include="_Main\Display.cs" />
     <Compile Include="_Main\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="_Main\Struct_InputData.cs" />
+    <Compile Include="Input\InputData.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="_ConfigFiles\App.config" />
     <None Include="_ConfigFiles\OpenTK.dll.config" />
     <None Include="_ConfigFiles\packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Shaders\ShaderFiles\continuousDataFragmentShader.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Shaders\ShaderFiles\continuousDataVertexShader.txt" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

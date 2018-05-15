@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace CalculatorEngine
 {
     //store raw data about a model in a VAO.
-    class RawModel
+    public class RawModel
     {
         /* FIELDS AND PROPERTIES */
         private int _vaoID;
