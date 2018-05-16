@@ -64,6 +64,7 @@ namespace CalculatorEngine.Properties {
         ///   Looks up a localized string similar to #version 400 core
         ///
         ///in vec3 fColor;
+        ///
         ///out vec4 outColor;
         ///
         ///void main(void)
@@ -71,9 +72,9 @@ namespace CalculatorEngine.Properties {
         ///	outColor = vec4(fColor, 1);
         ///}.
         /// </summary>
-        internal static string continuousDataFragmentShader {
+        internal static string entityFragmentShader {
             get {
-                return ResourceManager.GetString("continuousDataFragmentShader", resourceCulture);
+                return ResourceManager.GetString("entityFragmentShader", resourceCulture);
             }
         }
         
@@ -97,9 +98,9 @@ namespace CalculatorEngine.Properties {
         ///	fColor = vColor;
         ///}.
         /// </summary>
-        internal static string continuousDataVertexShader {
+        internal static string entityVertexShader {
             get {
-                return ResourceManager.GetString("continuousDataVertexShader", resourceCulture);
+                return ResourceManager.GetString("entityVertexShader", resourceCulture);
             }
         }
     }

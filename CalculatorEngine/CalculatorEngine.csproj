@@ -46,22 +46,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Components\Data.cs" />
+    <Compile Include="Environments\Environment.cs" />
+    <Compile Include="Managers\InputManager.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="RenderEngine\MasterRenderer.cs" />
-    <Compile Include="Entities\QuadraticFunction.cs" />
     <Compile Include="RenderEngine\EntityRenderer.cs" />
     <Compile Include="Entities\Function.cs" />
     <Compile Include="Components\Entity.cs" />
     <Compile Include="Input\Camera.cs" />
     <Compile Include="Components\Transform.cs" />
     <Compile Include="Utility\Mathematics.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
     <Compile Include="Shaders\EntityShader.cs" />
     <Compile Include="RenderEngine\Loader.cs" />
-    <Compile Include="Models\IRenderable.cs" />
     <Compile Include="Models\RawModel.cs" />
     <Compile Include="Shaders\ShaderProgram.cs" />
     <Compile Include="_Main\MainRenderLoop.cs" />
@@ -78,14 +79,15 @@
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
+      <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Shaders\ShaderFiles\continuousDataFragmentShader.txt" />
+    <None Include="Shaders\ShaderFiles\entityFragmentShader.txt" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Shaders\ShaderFiles\continuousDataVertexShader.txt" />
+    <None Include="Shaders\ShaderFiles\entityVertexShader.txt" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

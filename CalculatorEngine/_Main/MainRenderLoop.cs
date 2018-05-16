@@ -23,29 +23,17 @@ namespace CalculatorEngine
         public int framesPerSecond { get => _framesPerSecond; private set => _framesPerSecond = value; }
 
         //input:
-        private KeyboardState keyboardState { get; set; }
-        private MouseState mouseState { get; set; }
-        private bool _isWindowFocused = true;
-        private bool _isMouseInWindow;
-        private float _mouseWheelDelta;
-        private Point _mousePosition;
-        public bool isWindowFocused { get => _isWindowFocused; set => _isWindowFocused = value; }
-        public bool isMouseInWindow { get => _isMouseInWindow; set => _isMouseInWindow = value; }
-        public float mouseWheelDelta { get => _mouseWheelDelta; set => _mouseWheelDelta = value; }
-        public Point mousePosition { get => _mousePosition; set => _mousePosition = value; }
-        public InputData inputData { get; set; }
+        InputManager inputManager;
+        
+
 
         //rendering:
         Loader loader;
         MasterRenderer masterRenderer;
         Camera camera;
 
-
         //temporary:
-        private List<Function> functions;
-        private List<Entity> entities;
-        private List<Vector3> temporary;
-
+        List<Entity> entities;
 
         /* CONSTRUCTORS */
         public MainRenderLoop(int windowWidth, int windowHeight, int framesPerSecond)
@@ -72,6 +60,8 @@ namespace CalculatorEngine
 
             //run the dislay:
             this.display.Run(framesPerSecond);
+
+            
         }
 
 
@@ -82,30 +72,30 @@ namespace CalculatorEngine
         //when the window starts.
         private void OnLoad(object sender, EventArgs e)
         {
-            //initialize:
+            //initialize render components. NOTE: I did try putting this in the constructor, but Loader was not initialized before rendering began. putting this here is safer, apparently.
             loader = new Loader();
             masterRenderer = new MasterRenderer();
             camera = new Camera();
+            inputManager = new InputManager(this.display);
+
 
             Transform transform = new Transform(new Vector3(0, 0, -10), 0, 0, 0, 1);
             Vector3 position1 = new Vector3(0, 0, 0);
-            Vector3 position2 = new Vector3(0.5f, 0.5f, 0);
+            Vector3 position2 = new Vector3(0.5f, 0.5f, -2);
             Vector3 position3 = new Vector3(0, 1f, 0);
-
-            temporary = new List<Vector3>();
-            temporary.Add(position1);
-            temporary.Add(position2);
-            temporary.Add(position3);
-
+            
             Vector3 white = new Vector3(1, 1, 1);
 
-            Vector3[] positions = new Vector3[3] { position1, position2 , position3};
+            Vector3[] positions = new Vector3[3] { position1, position2, position3 };
             Vector3[] colors = new Vector3[3] { white, white, white };
 
             RawModel rawModel = loader.VAO_Load(positions, colors);
             Entity entity = new Entity(transform, rawModel);
             entities = new List<Entity>();
             entities.Add(entity);
+
+
+
         }
 
         //when the screen is resized.
@@ -117,35 +107,12 @@ namespace CalculatorEngine
         //when the frame updates, based upon framerate.
         private void OnUpdateFrame(object sender, FrameEventArgs e)
         {
-            //manage input:
-            this.keyboardState = Keyboard.GetState();
-            this.mouseState = Mouse.GetCursorState();
-            this.mousePosition = this.display.PointToClient(new Point(mouseState.X, mouseState.Y));
+            //manage input through the input manager. do this upon frame updates.
+            inputManager.ManageInput();
 
-            //package the input information for use in other classes.
-            inputData = new InputData(keyboardState, mouseState, mouseWheelDelta, mousePosition, isWindowFocused, isMouseInWindow);
-
-            //only manage input if the window is focused.
-            if (isWindowFocused)
-            {
-                ManageInput(keyboardState, mouseState);
-            }
-
+            //for now, we call camera.Move(). later this will only be called in environments that want to move the camera.
             camera.Move();
 
-            Matrix4 transformationMatrix = Mathematics.CreateTransformationMatrix(new Transform(new Vector3(0, 0, 0), 0, 0, 0, 1));
-            Matrix4 projectionMatrix = masterRenderer.projectionMatrix;
-            Matrix4 viewMatrix = Mathematics.CreateViewMatrix(camera);
-
-            //Console.WriteLine($"Transformation: \n{ transformationMatrix }\n");
-            //Console.WriteLine($"Projection: \n{projectionMatrix}\n");
-            //Console.WriteLine($"View: \n{viewMatrix}\n");
-            Vector4 position1 = viewMatrix * new Vector4(temporary[0].X, temporary[0].Y, temporary[0].Z, 1);
-            Vector4 position2 = viewMatrix * new Vector4(temporary[1].X, temporary[1].Y, temporary[1].Z, 1);
-            Vector4 position3 = viewMatrix * new Vector4(temporary[2].X, temporary[2].Y, temporary[2].Z, 1);
-            //Console.WriteLine($"{position1} {position2} {position3}");
-            //Vector4 position1 = projectionMatrix * viewMatrix * transformationMatrix * new Vector4(temporary[1].X, temporary[1].Y, temporary[1].Z, 1);
-            //Console.WriteLine($"{position1}");
         }
 
         //when the frame is rendered, fixed timestep.
@@ -161,7 +128,9 @@ namespace CalculatorEngine
         //when the window is closed.
         private void OnClosed(object sender, EventArgs e)
         {
-
+            //call all clean up methods:
+            loader.CleanUp();
+            masterRenderer.CleanUp();
         }
 
 
@@ -171,43 +140,29 @@ namespace CalculatorEngine
         //when the window is focused/unfocused.
         private void OnFocusedChanged(object sender, EventArgs e)
         {
-            this.isWindowFocused = this.display.Focused;
+            inputManager.isWindowFocused = this.display.Focused;
         }
 
         //when the mouse cursor leaves the screen.
         private void OnMouseLeave(object sender, EventArgs e)
         {
-            this.isMouseInWindow = false;
+            inputManager.isMouseInWindow = false;
         }
 
         //when the mouse cursor enters the screen.
         private void OnMouseEnter(object sender, EventArgs e)
         {
-            this.isMouseInWindow = true;
+            inputManager.isMouseInWindow = true;
         }
 
         //when the mouse wheel is turned.
         private void OnMouseWheel(object sender, MouseWheelEventArgs e)
         {
-            this.mouseWheelDelta = e.Delta;
+            inputManager.mouseWheelDelta = e.Delta;
         }
 
 
         /* METHODS */
 
-
-        /* INPUT */
-        private void ManageInput(KeyboardState keyboardState, MouseState mouseState)
-        {
-            //we cannot expect everyone that uses this to have quick fingers, so a key press is normally registered for multiple frame updates--resulting in multiple calculations for no reason.
-            //avoid this issue by keeping track of the last key pressed.
-            Key lastKeyPressed = Key.Escape;
-            
-            //close the display: end the program.
-            if (keyboardState.IsKeyDown(Key.Escape))
-            {
-                display.Close();
-            }
-        }
     }
 }

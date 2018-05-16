@@ -9,8 +9,8 @@ namespace CalculatorEngine
     {
         /* PROPERTIES */
         //shader files. reference them from the Resources folder. note that these are pure files, not filePaths.
-        private static string vertexShaderFile = Properties.Resources.continuousDataVertexShader;
-        private static string fragmentShaderFile = Properties.Resources.continuousDataFragmentShader;
+        private static string vertexShaderFile = Properties.Resources.entityVertexShader;
+        private static string fragmentShaderFile = Properties.Resources.entityFragmentShader;
 
         //uniform variables.
         private int locationTransformationMatrix;
