@@ -7,7 +7,7 @@ using OpenTK.Graphics.OpenGL4;
 namespace CalculatorEngine
 {
     //sends data to the GPU. do NOT make this static so we can keep track of the VAOs, VBOs, and textures that get rendered. this helps with batch rendering and cleaning up.
-    public class Loader
+    public static class Loader
     {
         /* HOW TO LOAD SOMETHING:
          * 1. Get an array of positions of vertices.
@@ -22,10 +22,10 @@ namespace CalculatorEngine
 
         /* PROPERTIES */
         //keep track of all VAOs and VBOs that are created so that we can dispose of them when we're done using them.
-        private List<int> _vaos = new List<int>();
-        private List<int> _vbos = new List<int>();
-        public List<int> vaos { get => _vaos; set => _vaos = value; }
-        public List<int> vbos { get => _vbos; set => _vbos = value; }
+        private static List<int> _vaos = new List<int>();
+        private static List<int> _vbos = new List<int>();
+        public static List<int> vaos { get => _vaos; set => _vaos = value; }
+        public static List<int> vbos { get => _vbos; set => _vbos = value; }
 
 
         /* METHODS */
@@ -34,7 +34,7 @@ namespace CalculatorEngine
         /// <summary>
         /// Creates a VAO and binds it as the current VAO so that data can be passed to the GPU. 
         /// </summary>
-        private int VAO_Initialize()
+        private static int VAO_Initialize()
         {
             int vaoID;
             GL.GenVertexArrays(1, out vaoID); //generate a single VAO ID.
@@ -49,7 +49,7 @@ namespace CalculatorEngine
         /// <summary>
         /// Store FLOAT data into an attribute list of the currently-bound VAO.
         /// </summary>
-        private void AttributeList_StoreData(int attributeNumber, float[] data)
+        private static void AttributeList_StoreData(int attributeNumber, float[] data)
         {
             //create a VBO to store the data:
             int vboID = GL.GenBuffer(); //create a VBO and get the ID.
@@ -68,7 +68,7 @@ namespace CalculatorEngine
         /// <summary>
         /// Store INTEGER data into an attribute list of the currently-bound VAO.
         /// </summary>
-        private void AttributeList_StoreData(int attributeNumber, int[] data)
+        private static void AttributeList_StoreData(int attributeNumber, int[] data)
         {
             //create a VBO to store the data:
             int vboID = GL.GenBuffer(); //create a VBO and get the ID.
@@ -87,7 +87,7 @@ namespace CalculatorEngine
         /// <summary>
         /// Store VECTOR2 data into an attribute list of the currently-bound VAO.
         /// </summary>
-        private void AttributeList_StoreData(int attributeNumber, Vector2[] data)
+        private static void AttributeList_StoreData(int attributeNumber, Vector2[] data)
         {
             //create a VBO to store the data:
             int vboID = GL.GenBuffer(); //create a VBO and get the ID.
@@ -106,7 +106,7 @@ namespace CalculatorEngine
         /// <summary>
         /// Store VECTOR2 DOUBLE data into an attribute list of the currently-bound VAO.
         /// </summary>
-        private void AttributeList_StoreData(int attributeNumber, Vector2d[] data)
+        private static void AttributeList_StoreData(int attributeNumber, Vector2d[] data)
         {
             //create a VBO to store the data:
             int vboID = GL.GenBuffer(); //create a VBO and get the ID.
@@ -125,7 +125,7 @@ namespace CalculatorEngine
         /// <summary>
         /// Store VECTOR3 data into an attribute list of the currently-bound VAO.
         /// </summary>
-        private void AttributeList_StoreData(int attributeNumber, Vector3[] data)
+        private static void AttributeList_StoreData(int attributeNumber, Vector3[] data)
         {
             //create a VBO to store the data:
             int vboID = GL.GenBuffer(); //create a VBO and get the ID.
@@ -144,7 +144,7 @@ namespace CalculatorEngine
         /// <summary>
         /// Store VECTOR2 DOUBLE data into an attribute list of the currently-bound VAO.
         /// </summary>
-        private void AttributeList_StoreData(int attributeNumber, Vector3d[] data)
+        private static void AttributeList_StoreData(int attributeNumber, Vector3d[] data)
         {
             //create a VBO to store the data:
             int vboID = GL.GenBuffer(); //create a VBO and get the ID.
@@ -167,7 +167,7 @@ namespace CalculatorEngine
         /// <summary>
         /// Calls GL.BindVertexArray(0) to unbind the currently-bound VAO.
         /// </summary>
-        private void VAO_Unbind()
+        private static void VAO_Unbind()
         {
             GL.BindVertexArray(0); //unbind is equivalent to binding ID zero.
         }
@@ -178,7 +178,7 @@ namespace CalculatorEngine
         /// <summary>
         /// Load a single Vector3 into the attribute list: 0.
         /// </summary>
-        public RawModel VAO_Load(Vector3 position)
+        public static RawModel VAO_Load(Vector3 position)
         {
             //create and bind the VAO:
             int vaoID = VAO_Initialize();
@@ -195,7 +195,7 @@ namespace CalculatorEngine
         /// <summary>
         /// Load a single array of Vector3 into the attribute lists: 0.
         /// </summary>
-        public RawModel VAO_Load(Vector3[] positions)
+        public static RawModel VAO_Load(Vector3[] positions)
         {
             //create and bind the VAO:
             int vaoID = VAO_Initialize();
@@ -212,7 +212,7 @@ namespace CalculatorEngine
         /// <summary>
         /// Load into the attribute lists: 0, 1.
         /// </summary>
-        public RawModel VAO_Load(Vector3[] positions, Vector3[] data_1)
+        public static RawModel VAO_Load(Vector3[] positions, Vector3[] data_1)
         {
             //create and bind the VAO:
             int vaoID = VAO_Initialize();
@@ -230,7 +230,7 @@ namespace CalculatorEngine
         /// <summary>
         /// Load into the attribute lists: 0, 1.
         /// </summary>
-        public RawModel VAO_Load(Vector3[] positions, Vector2[] data_1)
+        public static RawModel VAO_Load(Vector3[] positions, Vector2[] data_1)
         {
             //create and bind the VAO:
             int vaoID = VAO_Initialize();
@@ -248,7 +248,7 @@ namespace CalculatorEngine
         /// <summary>
         /// Load into the attribute lists: 0, 1, 2.
         /// </summary>
-        public RawModel VAO_Load(Vector3[] positions, Vector2[] data_1, int[] data_2)
+        public static RawModel VAO_Load(Vector3[] positions, Vector2[] data_1, int[] data_2)
         {
             //create and bind the VAO:
             int vaoID = VAO_Initialize();
@@ -268,7 +268,7 @@ namespace CalculatorEngine
 
 
         //clean up:
-        public void CleanUp()
+        public static void CleanUp()
         {
             //delete all of the VBOs and VAOs that we've used:
             GL.DeleteVertexArrays(vaos.Count, vaos.ToArray());

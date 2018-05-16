@@ -25,15 +25,15 @@ namespace CalculatorEngine
         //input:
         InputManager inputManager;
         
-
-
         //rendering:
-        Loader loader;
         MasterRenderer masterRenderer;
         Camera camera;
 
+        //environments:
+        Environment currentEnvironment;
+
         //temporary:
-        List<Entity> entities;
+        //List<Entity> entities;
 
         /* CONSTRUCTORS */
         public MainRenderLoop(int windowWidth, int windowHeight, int framesPerSecond)
@@ -73,12 +73,10 @@ namespace CalculatorEngine
         private void OnLoad(object sender, EventArgs e)
         {
             //initialize render components. NOTE: I did try putting this in the constructor, but Loader was not initialized before rendering began. putting this here is safer, apparently.
-            loader = new Loader();
             masterRenderer = new MasterRenderer();
             camera = new Camera();
             inputManager = new InputManager(this.display);
-
-
+            /*
             Transform transform = new Transform(new Vector3(0, 0, -10), 0, 0, 0, 1);
             Vector3 position1 = new Vector3(0, 0, 0);
             Vector3 position2 = new Vector3(0.5f, 0.5f, -2);
@@ -89,13 +87,14 @@ namespace CalculatorEngine
             Vector3[] positions = new Vector3[3] { position1, position2, position3 };
             Vector3[] colors = new Vector3[3] { white, white, white };
 
-            RawModel rawModel = loader.VAO_Load(positions, colors);
+            RawModel rawModel = Loader.VAO_Load(positions, colors);
             Entity entity = new Entity(transform, rawModel);
             entities = new List<Entity>();
             entities.Add(entity);
+            */
 
-
-
+            currentEnvironment = new Graphing();
+            currentEnvironment.OnLoad();
         }
 
         //when the screen is resized.
@@ -118,7 +117,8 @@ namespace CalculatorEngine
         //when the frame is rendered, fixed timestep.
         private void OnRenderFrame(object sender, FrameEventArgs e)
         {
-            masterRenderer.ProcessEntity(entities.ToArray());
+            currentEnvironment.OnRenderFrame(masterRenderer);
+            //masterRenderer.ProcessEntity(entities.ToArray());
             masterRenderer.Render(camera);
 
             //finish up rendering:
@@ -129,7 +129,7 @@ namespace CalculatorEngine
         private void OnClosed(object sender, EventArgs e)
         {
             //call all clean up methods:
-            loader.CleanUp();
+            Loader.CleanUp();
             masterRenderer.CleanUp();
         }
 

@@ -67,7 +67,7 @@ namespace CalculatorEngine
                 PrepareInstance(entity);
 
                 //draw:
-                GL.DrawArrays(PrimitiveType.Triangles, 0, entity.rawModel.vertexCount);
+                GL.DrawArrays(PrimitiveType.LineStrip, 0, entity.rawModel.vertexCount);
             }
 
             Unbind();
