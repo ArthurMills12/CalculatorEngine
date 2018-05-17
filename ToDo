@@ -11,6 +11,7 @@ GRAPHING ENVIRONMENT:
 - Solutions to differential equations (specific ones. baby steps)
 - 3D graphing of two-parameter functions
 - gridlines that have meaning
+- gridlines that are only rendered if they are in view of the camera
 - estimating intersection points between functions (solutions)
 - smooth transitions between switching between functions
 - numerical integration
