@@ -1,0 +1,42 @@
+Things I would like to implement at some point in my life:
+
+GENERAL:
+- Rendering
+- Environment switching
+- An actual UI
+
+GRAPHING ENVIRONMENT:
+- Graphing multiple functions
+- Graphing arbitrary data sets
+- Solutions to differential equations (specific ones. baby steps)
+- 3D graphing of two-parameter functions
+- gridlines that have meaning
+- estimating intersection points between functions (solutions)
+- smooth transitions between switching between functions
+- numerical integration
+- volumes of revolution
+- be able to input an equation and graph it
+- be able to input certain kinds of differential equations, which are solved and plotted
+- regression for data points
+- bifurcation diagrams to go with the graphical analysis environment
+
+GRAPHICAL ANALYSIS ENVIRONMENT:
+- figure out if this should be its own environment or just part of the graphing environment
+- demonstrate the orbit of a bunch of points in a domain for a given function
+- demonstrate the orbit of points specified by the mouse
+- "graphical analysis" of points bouncing between two arbitrary functions, just for fun
+
+FRACTAL ENVIRONMENT:
+- Mandelbrot set
+- arbitrary fractals... this might actually be easier than graphing arbitrary functions. just accept a string input and put it into the fragment shader text file and hope that it compiles
+- more interesting coloring algorithms
+- double precision
+- finally figure out how to do an actual zooming algorithm that actually works, geez
+
+CELLULAR AUTOMATA ENVIRONMENT:
+- standard cellular automation
+- cellular automation in real time
+- interactive cellular automation (Game of Life)
+- with marching squares (maybe... it might just look stupid)
+- 3D cellular automation
+- with marching cubes (again, as long as it doesn't look stupid)
